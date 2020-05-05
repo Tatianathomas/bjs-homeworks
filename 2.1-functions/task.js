@@ -63,9 +63,7 @@ function getAverageScore(data) {
 
 
   function getPersonData(secretData) {
-      let aaa;
-      let bbb;
-    return {firstName: getDecodedValue({secretData: aaa}), lastName: getDecodedValue({secretData: bbb})};
+    return {firstName: getDecodedValue(secretData.aaa), lastName: getDecodedValue(secretData.bbb)};
   }
   
   function getDecodedValue(secret) {
