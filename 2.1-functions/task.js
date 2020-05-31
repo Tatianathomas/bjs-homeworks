@@ -47,7 +47,7 @@ function getAverageScore(data) {
     data.average = average;
     return data;
   }
-  
+
   console.log(getAverageScore(inputData));
   //считает среднее по одному предмету - массив marks
   function getAverageMark(marks) {

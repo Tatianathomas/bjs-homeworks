@@ -146,11 +146,7 @@ class Staff extends Weapon {
         super({name: 'Посох', attack: 8, durability: 300, range: 2});
     }
 }
-class Bow extends Weapon {
-    constructor() {
-        super({name: 'Лук', attack: 10, durability: 200, range: 3});
-    }
-}
+
 class LongBow extends Bow {
     constructor(name, attack, range) {
         super();
@@ -183,66 +179,56 @@ class StormStaff extends Staff {
 class StudentLog {
     constructor(name) {
     this.name = name;
-    this.marks = {}
+    this.marks = []
     }
   
- getName() {
-      return this.name;
+  getName() {
+    return this.name;
  }
      
  addGrade(grade, subject) {
-  if (grade == isNaN || grade > 5 || grade <= 0) {
-  console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`) // проверка на то, является ли числом, не работает
+    if ( (Number.isNaN(grade) ) === true|| grade > 5 || grade <= 0) {
+      console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`) 
+   }
+    else {
+      this.marks.push(grade); 
+     } 
+     return this.marks.length;
   }
-    this.marks.push(grade); //  не пушит grade
- }
 
- getAverageBySubject(subject) {
-    for (let i = 0; i < grade.length; i++) {
-        sum += grade;
-        return sum / grade.length;
-    }
-    if (subject === 'indefined') {
+  getAverageBySubject(subject) {
+    if ((subject in this.marks) === 'indefined') {
         return 0;
     }
+    for (let i = 0; i < this.marks.length; i++) {
+        sum += subject;
+        return sum / this.marks.length;
+    }
  }
+  getTotalAverage() {
+
+  }
 
 }
 const log = new StudentLog('Иван Петров');
 console.log(log.getName());
-console.log(log.addGrade(3, 'algebra'));
-// 1
+console.log(log.addGrade(3, 'algebra')); // 1
 
-console.log(log.addGrade('отлично!', 'math'));
-// Вы пытались поставить оценку "отлично!" по предмету "math". Допускаются только числа от 1 до 5.
+console.log(log.addGrade('отлично!', 'math')); // Вы пытались поставить оценку "отлично!" по предмету "math". Допускаются только числа от 1 до 5.
 // 0
 
-console.log(log.addGrade(4, 'algebra'));
-// 2
+console.log(log.addGrade(4, 'algebra')); // 2
 
-console.log(log.addGrade(5, 'geometry'));
-// 1
+console.log(log.addGrade(5, 'geometry')); // 1
 
 console.log(log.addGrade(25, 'geometry'));
+log.addGrade(2, 'algebra');
+log.addGrade(4, 'algebra');
+log.addGrade(5, 'geometry');
+log.addGrade(4, 'geometry');
+
+console.log(log.getAverageBySubject('geometry')); // 4.5
+console.log(log.getAverageBySubject('algebra')); // 3
+console.log(log.getAverageBySubject('math'));
 
 
-
-const log = new StudentLog('Олег Никифоров');
-
-console.log(log.addGrade(3, 'algebra'));
-// 1
-console.log(log.data)
-console.log(log.addGrade('отлично!', 'math'));
-// Вы пытались поставить оценку "отлично!" по предмету "math". Допускаются только числа от 1 до 5.
-// 0
-
-
-console.log(log.addGrade(4, 'algebra'));
-// 1
-
-console.log(log.addGrade(5, 'geometry'));
-// 1
-
-console.log(log.addGrade(25, 'geometry'));
-// Вы пытались поставить оценку "25" по предмету "geometry". Допускаются только числа от 1 до 5.
-// 1
