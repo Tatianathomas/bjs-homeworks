@@ -155,7 +155,7 @@ class LongBow extends Bow {
         this.range = 4;
     }
 }
-class Ax extends Sword {
+class Axe extends Sword {
     constructor(name, attack, durability) {
         super();
         this.name = 'Секира';
@@ -178,36 +178,56 @@ class StormStaff extends Staff {
 
 class StudentLog {
     constructor(name) {
-    this.name = name;
-    this.marks = []
+        this.name = name;
+        this.marks = []
     }
-  
-  getName() {
-    return this.name;
- }
+    
+    getName() {
+        return this.name;
+    }
      
- addGrade(grade, subject) {
-    if ( (Number.isNaN(grade) ) === true|| grade > 5 || grade <= 0) {
-      console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`) 
-   }
-    else {
-      this.marks.push(grade); 
-     } 
-     return this.marks.length;
-  }
+    addGrade(grade, subject) {
+        if ( !(subject in this.marks[0]) ) {
+            this.marks.push({
+                subject: subject,
+                marks: []
+            });
+        }
 
-  getAverageBySubject(subject) {
-    if ((subject in this.marks) === 'indefined') {
-        return 0;
-    }
-    for (let i = 0; i < this.marks.length; i++) {
-        sum += subject;
-        return sum / this.marks.length;
-    }
- }
-  getTotalAverage() {
+        if ( Number.isNaN(grade) || grade > 5 || grade < 1) {
+            console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`) 
+        }
+        
+        for (let record of this.marks) { 
+            if (record[subject] === subject) {
+                this.marks.marks.push(grade);
+            }
+        }
 
-  }
+        return this.marks.marks.length;
+    }
+
+    getAverageBySubject(subject) {
+        let sum = 0;
+        for (let record of this.marks) { 
+            if (record[subject] === subject) {
+                if (record.marks === 0) {
+                    return 0;
+                }
+                for (let i = 0; i < record.marks.length; i++) {
+                    sum += record.marks[i];
+                }
+                return sum / record.marks.length;
+            }
+            
+        }
+        
+
+    }
+
+    getTotalAverage() {
+
+    }
 
 }
 const log = new StudentLog('Иван Петров');
