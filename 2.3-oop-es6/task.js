@@ -187,49 +187,61 @@ class StudentLog {
     }
      
     addGrade(grade, subject) {
-        if ( !(subject in this.marks[0]) ) {
-            this.marks.push({
-                subject: subject,
-                marks: []
-            });
-        }
+        if (this.marks.length === 0) {
+            this.marks.push(
+                {
+                    [subject]: subject,
+                    marks: []
+                }
+            )
+        }  
 
-        if ( Number.isNaN(grade) || grade > 5 || grade < 1) {
-            console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`) 
-        }
-        
-        for (let record of this.marks) { 
-            if (record[subject] === subject) {
-                this.marks.marks.push(grade);
-            }
-        }
+        if (isNaN(grade) || grade > 5 || grade < 1) {
+            console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`);
+            for (let record of this.marks) { 
+                if (subject in record) {
+                    return record.marks.length;
+                }
+            }        
+         }
+        else {
+            for (let record of this.marks) {
+            if ( (subject in record) ) {
+                record.marks.push(grade);
+                return record.marks.length;
+            }    
+            }  
+        } 
+        } 
 
-        return this.marks.marks.length;
-    }
-
-    getAverageBySubject(subject) {
-        let sum = 0;
-        for (let record of this.marks) { 
-            if (record[subject] === subject) {
-                if (record.marks === 0) {
+        getAverageBySubject(subject) {
+            let sum = 0;       
+            for (let record of this.marks) { 
+                if (record['subject'] === subject) {
+                    if (record.marks.length === 0) {
                     return 0;
                 }
                 for (let i = 0; i < record.marks.length; i++) {
                     sum += record.marks[i];
                 }
                 return sum / record.marks.length;
+                }
             }
-            
+        } 
+        getTotalAverage() {
+            if (this.marks.length === 0) {
+                return 0;
+            }        
+            let sum = 0;       
+            for (let record of this.marks) { 
+                console.log (`record: ${record.marks}`);
+                console.log(`this.getAverageBySubject(record.marks): ${this.getAverageBySubject(record.marks)}`)
+                sum += this.getAverageBySubject(record.marks);
+            }        
+            return sum / this.marks.length;
         }
-        
-
-    }
-
-    getTotalAverage() {
-
-    }
-
 }
+
 const log = new StudentLog('Иван Петров');
 console.log(log.getName());
 console.log(log.addGrade(3, 'algebra')); // 1
