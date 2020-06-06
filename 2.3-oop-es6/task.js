@@ -1,6 +1,6 @@
 'use strict';
 
-// Задача 1
+/* // Задача 1
 class Weapon  {
     constructor(object) {
         this.name = object.name;
@@ -172,7 +172,7 @@ class StormStaff extends Staff {
     }
 }
 
-
+*/
 
 // Задача 3
 
@@ -187,80 +187,93 @@ class StudentLog {
     }
      
     addGrade(grade, subject) {
-        if (this.marks.length === 0) {
-            this.marks.push(
-                {
-                    [subject]: subject,
-                    marks: []
-                }
-            )
-        }  
-
         if (isNaN(grade) || grade > 5 || grade < 1) {
-            console.log(`Вы пытались поставить оценку ${grade}. Допускаются только числа от 1 до 5`);
-            for (let record of this.marks) { 
-                if (subject in record) {
-                    return record.marks.length;
-                }
-            }        
-         }
-        else {
-            for (let record of this.marks) {
-            if ( (subject in record) ) {
-                record.marks.push(grade);
-                return record.marks.length;
-            }    
-            }  
-        } 
-        } 
-
-        getAverageBySubject(subject) {
-            let sum = 0;       
-            for (let record of this.marks) { 
-                if (record['subject'] === subject) {
-                    if (record.marks.length === 0) {
-                    return 0;
-                }
-                for (let i = 0; i < record.marks.length; i++) {
-                    sum += record.marks[i];
-                }
-                return sum / record.marks.length;
-                }
+            console.log(`Вы пытались поставить оценку ${grade} по предмету ${subject}. Допускаются только числа от 1 до 5.`);
+            const subjectRecords = this.marks.find(elem => elem['subject'] === subject);
+            if (subjectRecords) {
+            return subjectRecords.grades.length;
+            } else {
+            return 0;
             }
         } 
-        getTotalAverage() {
-            if (this.marks.length === 0) {
-                return 0;
-            }        
-            let sum = 0;       
-            for (let record of this.marks) { 
-                console.log (`record: ${record.marks}`);
-                console.log(`this.getAverageBySubject(record.marks): ${this.getAverageBySubject(record.marks)}`)
-                sum += this.getAverageBySubject(record.marks);
-            }        
-            return sum / this.marks.length;
+        else {
+            if ( !(this.marks.find(elem => elem['subject'] === subject))) {
+                const newRecord = {
+                    subject: subject,
+                    grades: [grade]
+                  }
+                this.marks.push(newRecord);
+                return newRecord['grades'].length
+            }   
+            
+            else {
+                for (let record of this.marks) {
+                    if (record['subject'] === subject) {
+                        record['grades'].push(grade);
+                    }
+                    return record['grades'].length; 
+                }
+            }   
         }
-}
+    } 
 
-const log = new StudentLog('Иван Петров');
-console.log(log.getName());
-console.log(log.addGrade(3, 'algebra')); // 1
+    getAverageBySubject(subject) {
+        
+        let arr = this.marks.filter(function(sub) {
+            (sub['subject'] === subject); 
+        }); 
+        if (!arr) {
+            return 0;
+        }
+        for (let i = 0; i < arr.length; i++) {
+            let sum = 0;
+            sum += arr[i];
+        }
+        return sum / arr['grades'].length;
 
-console.log(log.addGrade('отлично!', 'math')); // Вы пытались поставить оценку "отлично!" по предмету "math". Допускаются только числа от 1 до 5.
+    }
+     
+    getTotalAverage() {
+        if (this.marks.length === 0) {
+            return 0;
+        }        
+        let sum = 0;        
+        for (let record of this.marks) {
+            sum += this.getAverageBySubject(record['grades']);
+        }
+        return sum / record['grades'].length;
+    }     
+}    
+const log = new StudentLog('Олег Никифоров');
+
+console.log(log.addGrade(3, 'algebra'));
+// 1
+
+console.log(log.addGrade('отлично!', 'math'));
+// Вы пытались поставить оценку "отлично!" по предмету "math". Допускаются только числа от 1 до 5.
 // 0
+console.log(log.addGrade(4, 'algebra'));
+// 2
 
-console.log(log.addGrade(4, 'algebra')); // 2
+console.log(log.addGrade(5, 'geometry'));
+// 1
 
-console.log(log.addGrade(5, 'geometry')); // 1
+console.log(log.addGrade(25, 'geometry')); 
 
-console.log(log.addGrade(25, 'geometry'));
+log.addGrade(2, 'algebra');
+log.addGrade(4, 'algebra');
+log.addGrade(5, 'geometry');
+log.addGrade(4, 'geometry');
+console.log(log.getAverageBySubject('geometry')); // 4.5
+console.log(log.getAverageBySubject('algebra')); // 3
+console.log(log.getAverageBySubject('math'));
+
 log.addGrade(2, 'algebra');
 log.addGrade(4, 'algebra');
 log.addGrade(5, 'geometry');
 log.addGrade(4, 'geometry');
 
-console.log(log.getAverageBySubject('geometry')); // 4.5
-console.log(log.getAverageBySubject('algebra')); // 3
-console.log(log.getAverageBySubject('math'));
+console.log(log.getTotalAverage()); 
+
 
 
