@@ -1,6 +1,6 @@
 'use strict';
 
-/* // Задача 1
+// Задача 1
 class Weapon  {
     constructor(object) {
         this.name = object.name;
@@ -172,7 +172,7 @@ class StormStaff extends Staff {
     }
 }
 
-*/
+
 
 // Задача 3
 
@@ -210,8 +210,8 @@ class StudentLog {
                 for (let record of this.marks) {
                     if (record['subject'] === subject) {
                         record['grades'].push(grade);
-                    }
-                    return record['grades'].length; 
+                        return record['grades'].length;
+                    }  
                 }
             }   
         }
@@ -221,26 +221,30 @@ class StudentLog {
         let arr = this.marks.filter(function(sub) {
             return (sub['subject'] === subject); 
         }); 
-        if (!arr) {
+        if (arr.length === 0) {
             return 0;
         }
         let sum = 0;
-        console.log(arr[0])
-        console.log(arr[0].grades)
         for (let i = 0; i < arr[0].grades.length; ++i) {
             sum += arr[0].grades[i]; 
         } return sum / arr[0].grades.length; 
     }
 
     getTotalAverage() {
+        const averages = [];
         if (this.marks.length === 0) {
             return 0;
         }        
         let sum = 0;        
         for (let record of this.marks) {
-            sum += this.getAverageBySubject(record['grades']);
+            averages.push(this.getAverageBySubject(record['subject']));
+        } 
+        console.log(averages)
+        for (let i = 0; i < averages.length; ++i) {
+            sum += averages[i];
         }
-        return sum / record['grades'].length;
+        return sum / averages.length;
+ 
     }     
 }    
 const log = new StudentLog('Олег Никифоров');
